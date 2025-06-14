@@ -1,39 +1,51 @@
-from flask import Flask, request
+from flask import Flask, request, render_template, jsonify
 import requests
+import sqlite3
+
+def db():
+    conn = sqlite3.connect('goods.db')
+    cur = conn.cursor()
+    cur.execute("CREATE TABLE IF NOT EXISTS goods(id INTEGER PRIMARY KEY, item TEXT, qty TEXT, price TEXT)")
+    conn.commit()
+    conn.close()
+    return
+    
+def save(row):
+    conn = sqlite3.connect('goods.db')
+    cur = conn.cursor()
+    cur.execute("INSERT INTO goods(item, qty, price) VALUES (?, ?, ?)", row)
+    conn.commit()
+    cur.execute("SELECT * FROM goods")
+    res = cur.fetchall()
+    for d in res:
+        print(d)
+    conn.close()
+
+
 app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return 'Hello'
+    return render_template('subula.html')
     
 @app.route('/api', methods=['POST'])
 def api():
+    try:
+        db()
+    except Exception as e:
+        print(e)
     if request.method == 'POST':
-        headers = request.headers
-        body = request.get_json()
-        auth = headers.get('Auth')
-        amm = body.get('amount')
-        ref = body.get('reference')
-        tel = body.get('phone')
-        resp = {
-            "success":1,
-            "data":{
-            "phone": tel,
-            "reference": "your order id",
-            "transactionId": ref,
-            "amount": amm,
-            "reason":"your reason or narrative"
-        }
-        }
-        url = 'http://127.0.0.1:8000/webhook'
-        requests.post(url, json = resp)
-        return resp
-    else:
-        err = {
-            "success":0,
-            "errormsg":"An Error Occured. Make Payment Error: Insufficient Balance in your account"
-            }
-        return err
+        req = request.get_json()
+        try:
+            for d in req:
+                item = d['item']
+                qty = d['qty']
+                price = d['price']
+                row = (item, qty, price)
+                save(row)
+        except Exception as e:
+            print(e)
+        return jsonify({'message':'Received Succesfully'})
     
 if __name__== '__main__':
     app.run(debug=True)

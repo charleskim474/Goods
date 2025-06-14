@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <meta http-equiv="CONTENT-TYPE" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title> Goods</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+    }
+    .forms{
+      width: 100%;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 5px 3px 2px rgba(1, 0, 0, 0.5);
+    }
+    
+    tbody{
+      width: 95%;
+    }
+    input {
+      width: 95%;
+    }
+    #add, #submit {
+      border: none;
+      background: blue;
+      padding-left: 10px;
+      padding-right: 10px;
+      color: white;
+      font-size: 20px;
+      border-radius: 5px;
+      margin-top: 10px;
+      margin-bottom: 30px;
+    }
+    #submit{
+      position: absolute;
+      right: 0;
+    }
+    .spinner {
+      display: none;
+      width: 50px;
+      height: 50px;
+      border: 4px solid lightgray;
+      border-top: 4px solid blue;
+      border-radius: 50%;
+      opacity: 5;
+      animation-name: spin;
+      animation-duration: 0.5s;
+      animation-iteration-count: infinite;
+      animation-timing-function: linear;
+    }
+    @keyframes spin{
+       to{ transform: rotate(360deg);}
+    }
+  </style>
+</head>
+<body>
+  <div class="forms">
+    <form method="POST">
+      <table id="table">
+        <tr>
+          <th>Item</th>
+          <th>Quantity</th>
+          <th>Price</th>
+        </tr>
+        <tbody>
+          <tr>
+            <td><input type="text" name="item"></td>
+            <td><input type="text" name="qty"></td>
+            <td><input type="number" name="price"></td>
+          </tr>
+        </tbody>
+      </table>
+      <button type="button" id="submit" onClick="submitTable()">Submit</button>
+      <button type="button" id="add" onClick="addRow()">+</button>
+    </form>
+    
+    <div id="spinner" class="spinner"></div>
+  </div>
+  
+  <script>
+    function addRow(){
+      let table = document.getElementById("table");
+      let row = table.insertRow();
+      row.insertCell(0).innerHTML = '<input type="text" name="item">';
+      row.insertCell(1).innerHTML = '<input type="text" name="qty">';
+      row.insertCell(2).innerHTML = '<input type="number" name="price">';
+    }
+  
+  function submitTable(){
+    var table = document.getElementById("table");
+    var spinner = document.getElementById("spinner");
+    spinner.style.display = "flex";
+    spinner.style.position = "absolute";
+    spinner.style.left = "45%";
+    table.style.opacity = "0.5";
+    
+    var data = [];
+    
+    for(let i=1; i<table.rows.length; i++){
+      let item = table.rows[i].cells[0].querySelector("input").value;
+      let qty = table.rows[i].cells[1].querySelector("input").value;
+      let price = table.rows[i].cells[2].querySelector("input").value;
+      data.push({item: item, qty: qty, price: price })
+    }
+      document.getElementById("submit").texContent = "Sending";
+      fetch("/api", {method: "POST", headers:{ 'Content-Type': 'application/json'}, body: JSON.stringify(data)})
+      
+          .then(response => {
+            if(!response.ok) throw new Error("HTTP Error"+ error) 
+            return response.json();
+            response.json()})
+      
+          .then(result =>{
+            spinner.style.display = "none";
+            msg = "Success!"
+            alert(msg);
+          })
+          .catch(error => {
+            console.error('Error : ', error);
+        });
+  }
+  
+  </script>
+</body>
+</html>
