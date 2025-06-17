@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <meta http-equiv="CONTENT-TYPE" content="text/html; charset=UTF-8">
+  <title>Added</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+    }
+    table{
+      width: 100%;
+      background: white;
+      border-collapse: collapse;
+      border: 1px bold black;
+      font-size: 30px;
+    }
+    
+    tbody{
+      width: 95%;
+    }
+    tbody td {
+      border-collapse: collapse;
+      border: 1px bold black;
+    }
+    .content{
+      width: 100%;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 5px 3px 2px rgba(1, 0, 0, 0.5);
+    }
+    #add {
+      border: none;
+      background: blue;
+      padding-left: 10px;
+      padding-right: 10px;
+      color: white;
+      font-size: 20px;
+      border-radius: 5px;
+      margin-top: 10px;
+      margin-bottom: 30px;
+    }
+  </style>
+</head>
+<body>
+  <div class="forms">
+      <table id="table">
+        <tr>
+          <th>Item</th>
+          <th>Quantity</th>
+          <th>Price</th>
+        </tr>
+        <tbody>
+          {% for d in data %}
+          <tr>
+            <td>{{d[1]}}</td>
+            <td>{{d[2]}}</td>
+            <td>{{d[3]}}</td>
+          </tr>
+        </tbody>
+          {%endfor%}
+      </table>
+    <a href="/"><button type="button" id="add" onClick="addRow()">+</button></a>
+  </div>
+</body>
+</html>

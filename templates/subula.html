@@ -107,7 +107,9 @@
       data.push({item: item, qty: qty, price: price })
     }
       document.getElementById("submit").texContent = "Sending";
-      fetch("/api", {method: "POST", headers:{ 'Content-Type': 'application/json'}, body: JSON.stringify(data)})
+      
+      url = "https://kimtech10k.pythonanywhere.com/api";
+      fetch(url, {method: "POST", headers:{ 'Content-Type': 'application/json'}, body: JSON.stringify(data)})
       
           .then(response => {
             if(!response.ok) throw new Error("HTTP Error"+ error) 

@@ -28,6 +28,14 @@ app = Flask(__name__)
 def index():
     return render_template('subula.html')
     
+@app.route('/goods', methods = ['GET'])
+def added():
+    conn = sqlite3.connect('goods.db')
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM goods")
+    data = cur.fetchall()
+    return render_template('added.html', data = data)
+    
 @app.route('/api', methods=['POST'])
 def api():
     try:
