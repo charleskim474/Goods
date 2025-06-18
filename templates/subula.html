@@ -70,7 +70,7 @@
           <th>Quantity</th>
           <th>Price</th>
         </tr>
-        <tbody>
+        <tbody id="tbdy">
           <tr>
             <td><input type="text" name="item"></td>
             <td><input type="text" name="qty"></td>
@@ -98,6 +98,20 @@
       row.insertCell(1).innerHTML = '<input type="text" name="qty">';
       row.insertCell(2).innerHTML = '<input type="number" name="price">';
     }
+  
+  
+  function resetTable(){
+    let html = `<tr>
+            <td><input type="text" name="item"></td>
+            <td><input type="text" name="qty"></td>
+            <td><input type="number" name="price"></td>
+          </tr>`;
+    
+     var tbdy = document.getElementById("tbdy");
+    tbdy.innerHTML = html;
+
+  }
+  
   
   function submitTable(){
     var table = document.getElementById("table");
@@ -127,6 +141,7 @@
       
           .then(result =>{
             spinner.style.display = "none";
+            resetTable();
             msg = "Success!"
             alert(msg);
           })
