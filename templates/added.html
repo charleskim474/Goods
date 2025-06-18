@@ -2,7 +2,8 @@
 
 <html>
 <head>
-  <meta http-equiv="CONTENT-TYPE" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+ 
   <title>Added</title>
   <style>
     body {
@@ -15,10 +16,14 @@
       background: white;
       border-collapse: collapse;
       border: 1px bold black;
-      font-size: 30px;
+      font-size: 20px;
     }
+  
+  input{
+    width: 100%;
+  }
     
-    tbody{
+    /*tbody{
       width: 95%;
     }
     tbody td {
@@ -41,11 +46,10 @@
       border-radius: 5px;
       margin-top: 10px;
       margin-bottom: 30px;
-    }
+    }*/
   </style>
 </head>
 <body>
-  <div class="forms">
       <table id="table">
         <tr>
           <th>Item</th>
@@ -54,13 +58,18 @@
         </tr>
         <tbody>
           {% for d in data %}
+          
           <tr>
-            <td>{{d[1]}}</td>
-            <td>{{d[2]}}</td>
-            <td>{{d[3]}}</td>
+          
+            <td><input type="text" value="{{d[1]}}" readonly></td>
+          
+            <td><input type="text" value="{{d[2]}}" readonly></td>
+            
+            <td><input type="text" value="{{d[3]}}" readonly></td>
           </tr>
-        </tbody>
+          
           {%endfor%}
+        </tbody>
       </table>
     <a href="/"><button type="button" id="add" >Add more</button></a>
   </div>
