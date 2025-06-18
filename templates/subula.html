@@ -10,6 +10,10 @@
       margin: 0;
       font-family: Arial, sans-serif;
       background: #f4f4f4;
+      display: flex;
+      width: 100%;
+      align-content: center;
+      align-items: center;
     }
     .forms{
       width: 100%;
@@ -74,8 +78,13 @@
           </tr>
         </tbody>
       </table>
+      
       <button type="button" id="submit" onClick="submitTable()">Submit</button>
+      
       <button type="button" id="add" onClick="addRow()">+</button>
+      
+      <a href="/goods"><button type="button" id="add" >View added</button></a>
+      
     </form>
     
     <div id="spinner" class="spinner"></div>
@@ -108,8 +117,8 @@
     }
       document.getElementById("submit").texContent = "Sending";
       
-      url = "https://kimtech10k.pythonanywhere.com/api";
-      fetch(url, {method: "POST", headers:{ 'Content-Type': 'application/json'}, body: JSON.stringify(data)})
+      
+      fetch("/api", {method: "POST", headers:{ 'Content-Type': 'application/json'}, body: JSON.stringify(data)})
       
           .then(response => {
             if(!response.ok) throw new Error("HTTP Error"+ error) 
