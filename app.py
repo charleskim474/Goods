@@ -36,6 +36,15 @@ def added():
     data = cur.fetchall()
     return render_template('added.html', data = data)
     
+    
+@app.route('/delete', methods = ['GET'])
+def delete():
+    conn = sqlite3.connect('goods.db')
+    cur = conn.cursor()
+    cur.execute("DELETE FROM goods")
+    conn.commit()
+    return "Deleted everything"
+    
 @app.route('/api', methods=['POST'])
 def api():
     try:
